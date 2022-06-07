@@ -1,0 +1,33 @@
+---
+- name:  Connecting to all specified devices and enable interfaces...
+  hosts: routers
+  gather_facts: true
+ 
+
+  tasks:
+    - name: Turn on interface...
+      ios_interfaces:
+        config:
+         - name: "{{ item.name }}"
+           description: "{{ item.description  }}"
+           enabled: True
+        state: merged
+      loop: "{{ interfaces }}"
+
+    - name: Configure interface...
+      ios_l3_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            ipv4:
+              - address: "{{ item.ipv4 }}"
+            ipv6:
+              - address: "{{ item.ipv6 }}"
+        state: merged
+      loop: "{{ interfaces }}"
+    
+    - name: Print all available facts
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts }}"
+
+   
+...
