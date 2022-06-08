@@ -1,7 +1,7 @@
 ---
 - name:  Connecting to all specified devices and enable interfaces...
-  hosts: routers
-  gather_facts: true
+  hosts: switches
+  gather_facts: false
  
 
   tasks:
