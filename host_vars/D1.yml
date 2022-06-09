@@ -11,4 +11,15 @@ interfaces:
    ipv4: 10.10.11.2/24
    ipv6: "2001:db8:acad:1002::1/64"
    link_local: fe80::d1:1
- 
+ospf:
+  process_id: 123
+  router_id: 1.1.1.2
+  auto_cost:
+    reference_bandwidth: 1000
+ospf_networks:    
+  - address: "10.10.0.0"
+    wildcard_bits: "0.0.0.3"
+    area: "1"
+  - address: "10.10.11.0"
+    wildcard_bits: "0.0.0.3"
+    area: "1"

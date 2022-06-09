@@ -4,6 +4,13 @@
   gather_facts: false
 
   tasks:
+    - name: Configuring Logging synchronous for console vty
+      ios_config:
+        lines:
+          - logging synchronous
+        parents: line vty 0 4
+      tags: console
+
     - name: Turn on interfaces
       ios_interfaces:
         config:
@@ -12,6 +19,7 @@
             enabled: true
         state: merged
       loop: "{{ interfaces }}"
+      tags: enableintf
 
     - name: Configure switch interfaces as L3 interfaces
       ios_config:

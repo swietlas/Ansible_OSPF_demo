@@ -1,7 +1,7 @@
 #simple IOS config in ansible
 ---
-- name: Sample IOS show version for Ansible 2.5
-  hosts: iosxe
+- name: Sample IOS show commands 
+  hosts: routers
   gather_facts: no
 
   tasks:
@@ -22,14 +22,4 @@
   - name: display value of "myint" variable
     debug:
       var: myint["stdout_lines"][0]
-
-## Lab 1
-  - name: run show users
-    ios_command:
-      commands: show users
-    register: shuser
-
-  - name: display value of "shuser" variable
-    debug:
-      var: shuser["stdout_lines"][0]
 
