@@ -8,16 +8,37 @@
       ios_ospfv2:
         config:
           processes:
-          - process_id: "{{ ospf.process_id }}"
-            router_id: "{{ ospf.router_id }}"
-            #auto_cost:
-             # reference_bandwidth: "{{ ospf.auto_cost.reference_bandwidth }}"
-            network: 
-              - address: "{{ item.address }}"
-                area: "{{ item.area }}"
-                wildcard_bits: "{{ item.wildcard_bits }}"
+            - process_id: "{{ ospf.process_id }}"
+              router_id: "{{ ospf.router_id }}"
+              # auto_cost:
+              # reference_bandwidth: "{{ ospf.auto_cost.reference_bandwidth }}"
+              network:
+                - address: "{{ item.address }}"
+                  area: "{{ item.area }}"
+                  wildcard_bits: "{{ item.wildcard_bits }}"
       when: ospf is defined
       loop: "{{ ospf_networks }}"
-      tags: ospfproces
+      tags: ospfconfig
+
+    - name: Create ospf_config directory if does not exist
+      file:
+        path: "{{ inventory_dir }}/ospf_config "
+        state: directory
+        recurse: true
+
+    - name: Use ios_ospfv2 module to gather current ospf config
+      ios_ospfv2:
+        config:
+        state: gathered
+      register: ospfv2state
+
+    - name: Write OSPFv2 config to a file
+      copy:
+        content: " {{ {'ospfv2state': ospfv2state['gathered']} | to_nice_yaml }}"
+        dest: "{{ inventory_dir }}/ospf_config/{{ inventory_hostname }}_ospfv2.yaml"
+        mode: 0755
+        group: swt
+        owner: swt
+
 
 ...

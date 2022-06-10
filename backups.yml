@@ -1,0 +1,35 @@
+---
+- name: Play 1-> Create directories
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - block:
+    - name: Check directories
+      stat:
+        path: './cisco_backups'
+      register: directory_data
+
+    - debug: var=directory_data.stat.path
+
+    - name: Create directory if it doesn't already exist
+      file:
+        path: './cisco_backups'
+        state: directory
+        mode: 0755
+        group: swt
+        owner: swt
+      when: not directory_data.stat.exists
+
+- name: Play 2 -> Save backups from network devices
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Saving running-config to Backup directory
+      ios_config:
+        backup: yes
+        backup_options:
+          dir_path: './cisco_backups'
+...

@@ -1,0 +1,51 @@
+---
+- name: Play 1-> Create gather facts and disable interfaces without descr
+  hosts: R1
+  gather_facts: false
+
+  tasks:
+    - name: Gather only the interfaces resource facts and no legacy facts
+      cisco.ios.ios_facts:
+        gather_subset:
+          - 'all'        
+          #- '!all'
+          #- '!min'
+        gather_network_resources:
+          - interfaces
+      register: interfaces_result    
+    
+    - name: Debug facts
+      debug:
+        # msg: "{{ interfaces_result }}"
+        msg: "{{ ansible_facts }}"
+
+    #- name: Shutdown notconnect interfaces
+     # ios_config:
+      #  lines: shutdown
+      #parents: "interface {{ item.key }}"
+      #with_dict: "{{  network_resources }}"
+      #when: item.value.operstatus == "down"
+
+
+    - name: VIEW ALL ANSIBLE FACT KEYS
+      debug:
+        var: ansible_facts.keys()
+
+    - name: VIEW ALL ANSIBLE FACT values
+      debug:
+        var: ansible_facts.values()
+
+    - name: show ios facts 2
+      debug:
+        # var: ansible_net_interfaces
+        # var: ansible_net_interfaces.keys()
+        msg: " {{ item.keys() }}"  
+        with_dict: "{{ interfaces_result.ansible_facts.ansible_net_interfaces }}"
+
+    - name: Display all interface data
+      debug:
+        msg: "{{ item.key }},{{item.value.description}},{{item.value.ipv4.0.address}},{{item.value.ipv4.0.subnet}}"
+      when: item.value.ipv4.0.address is defined
+      with_dict:
+        - "{{ ansible_net_resources}}"
+...

@@ -5,12 +5,14 @@ interfaces:
    ipv4: 10.10.0.2/30
    ipv6: "2001:db8:acad:1001::2/64"
    link_local: fe80::d1:2
+   area: "1"
  - name: GigabitEthernet0/1
    L3: true
    description: Link to PC1 configured by Ansible
    ipv4: 10.10.11.2/24
    ipv6: "2001:db8:acad:1002::1/64"
    link_local: fe80::d1:1
+   area: "1"
 ospf:
   process_id: 123
   router_id: 1.1.1.2

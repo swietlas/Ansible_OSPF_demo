@@ -16,7 +16,7 @@
         config:
           - name: "{{ item.name }}"
             description: "{{ item.description }}"
-            enabled: true
+            enabled: false
         state: merged
       loop: "{{ interfaces }}"
       tags: enableintf
@@ -30,6 +30,7 @@
       loop_control:
         label: "{{ item.name }}"
       when: "item.L3 is defined"
+      tags: L3intsw
 
     - name: Configure interface addresses
       ios_l3_interfaces:
@@ -60,5 +61,25 @@
       loop:
         - ip routing
         - ipv6 unicast-routing
-      when: "'D' in inventory_hostname "
+      tags: iprouting
+
+    - name: run show ip int brief IPv4
+      ios_command:
+        commands: show ip interface brief
+      register: myintipv4
+
+    - name: display value of "myintipv4" variable
+      debug:
+        var: myintipv4["stdout_lines"][0]
+
+    - name: run show ipv6 int brief IPv6
+      ios_command:
+        commands: show ipv6 interface brief
+      register: myintipv6
+
+    - name: display value of "myintipv6" variable
+      debug:
+        var: myintipv6["stdout_lines"][0]
+
+
 ...

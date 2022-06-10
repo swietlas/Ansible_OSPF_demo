@@ -1,0 +1,87 @@
+---
+- name: OSPFv2 for IPv4 and OSPFv3 for IPv6 example
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Configure ospfv2 IPv4
+      ios_ospfv2:
+        config:
+          processes:
+            - process_id: "{{ ospf.process_id }}"
+              router_id: "{{ ospf.router_id }}"
+              # auto_cost:
+              # reference_bandwidth: "{{ ospf.auto_cost.reference_bandwidth }}"
+              network:
+                - address: "{{ item.address }}"
+                  area: "{{ item.area }}"
+                  wildcard_bits: "{{ item.wildcard_bits }}"
+      when: ospf is defined
+      loop: "{{ ospf_networks }}"
+      tags: ospfv2conf
+
+    - name: Create ospf_config directory if does not exist
+      ansible.builtin.file:
+        path: "{{ inventory_dir }}/ospf_config "
+        state: directory
+        recurse: true
+
+    - name: Use ios_ospfv2 module to gather current ospf config
+      ios_ospfv2:
+        config:
+        state: gathered
+      register: ospfv2state
+
+    - name: Write OSPFv2 config to a file
+      ansible.builtin.copy:
+        content: " {{ {'ospfv2state': ospfv2state['gathered']} | to_nice_yaml }}"
+        dest: "{{ inventory_dir }}/ospf_config/{{ inventory_hostname }}_ospfv2.yaml"
+        mode: 0755
+        group: swt
+        owner: swt
+
+    - name: Merge provided OSPFV3 configuration
+      cisco.ios.ios_ospfv3:
+        config:
+          processes:
+            - process_id: "{{ ospf.process_id }}"
+              router_id: "{{ ospf.router_id }}"
+              max_metric:
+                router_lsa: true
+                on_startup:
+                  time: 110
+              address_family:
+                - afi: ipv6
+                  unicast: true
+      when: ospf is defined
+      # loop: "{{ ospf_networks }}"
+      tags: ospfv3conf
+
+    - name: OSPF Interfaces configuration for IPv6 routers
+      cisco.ios.ios_ospf_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            address_family:
+              - afi: ipv6
+                process:
+                  id: "{{ ospf.process_id }}"
+                  area_id: "{{ item.area }}"
+                adjacency: true
+                bfd: true
+      loop: "{{ interfaces }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: "'Loopback' not in item.name and 'D' not in inventory_hostname"
+      tags: ospfv3intf
+
+    - name:  OSPF int ipv6 for switches
+      cisco.ios.ios_config:
+        lines:
+          - ipv6 ospf {{ ospf.process_id}} area {{ item.area }}
+        parents: interface {{ item.name }}
+      loop: "{{ interfaces }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: "'D' in inventory_hostname"
+      tags: ospfv3swtintf
+...

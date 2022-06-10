@@ -1,0 +1,11 @@
+ ospfv2state:
+    processes:
+    -   network:
+        -   address: 10.10.4.0
+            area: '2'
+            wildcard_bits: 0.0.0.3
+        -   address: 172.16.1.0
+            area: '0'
+            wildcard_bits: 0.0.0.3
+        process_id: 123
+        router_id: 3.3.3.1

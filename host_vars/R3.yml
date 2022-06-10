@@ -1,14 +1,16 @@
 interfaces:
  - name: GigabitEthernet0/0
-   description: Link to R1 configured by Ansible
+   description: Link to R2 configured by Ansible
    ipv4: 172.16.1.2/30
    ipv6: "2001:db8:acad:a002::2/64"
    link_local: "fe80::3:1"
+   area: "0"
  - name: GigabitEthernet0/1
-   description: Link to R3 configured by Ansible
+   description: Link to D2 configured by Ansible
    ipv4: 10.10.4.1/30
    ipv6: "2001:db8:acad:2001::1/64"
    link_local: "fe80::3:2"
+   area: "2"
 ospf:
   process_id: 123
   router_id: 3.3.3.1
@@ -19,8 +21,5 @@ ospf_networks:
     wildcard_bits: "0.0.0.3"
     area: "0"
   - address: "10.10.4.0"
-    wildcard_bits: "0.0.0.3"
-    area: "2"
-  - address: "10.10.5.0"
     wildcard_bits: "0.0.0.3"
     area: "2"
