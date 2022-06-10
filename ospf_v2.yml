@@ -22,7 +22,7 @@
 
     - name: Create ospf_config directory if does not exist
       ansible.builtin.file:
-        path: "{{ inventory_dir }}/ospf_config "
+        path: "{{ inventory_dir }}/ospf_config"
         state: directory
         recurse: true
 
@@ -71,7 +71,7 @@
       loop: "{{ interfaces }}"
       loop_control:
         label: "{{ item.name }}"
-      when: "'Loopback' not in item.name and 'D' not in inventory_hostname"
+      when: "'Loopback' not in item.name and item.area is defined"
       tags: ospfv3intf
 
     - name:  OSPF int ipv6 for switches
@@ -82,6 +82,7 @@
       loop: "{{ interfaces }}"
       loop_control:
         label: "{{ item.name }}"
-      when: "'D' in inventory_hostname"
+      #when: "'D' in inventory_hostname"
+      when: "'D' in inventory_hostname and item.area is defined"
       tags: ospfv3swtintf
 ...

@@ -11,6 +11,7 @@ interfaces:
    ipv6: "2001:db8:acad:2001::1/64"
    link_local: "fe80::3:2"
    area: "2"
+
 ospf:
   process_id: 123
   router_id: 3.3.3.1

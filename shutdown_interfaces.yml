@@ -1,24 +1,14 @@
 ---
 - name: Play 1-> Create gather facts and disable interfaces without descr
-  hosts: R1
+  hosts: all
   gather_facts: false
 
   tasks:
     - name: Gather only the interfaces resource facts and no legacy facts
       cisco.ios.ios_facts:
-        gather_subset:
-          - 'all'        
-          #- '!all'
-          #- '!min'
-        gather_network_resources:
-          - interfaces
-      register: interfaces_result    
+        gather_subset: interfaces
+      register: facts_output  
     
-    - name: Debug facts
-      debug:
-        # msg: "{{ interfaces_result }}"
-        msg: "{{ ansible_facts }}"
-
     #- name: Shutdown notconnect interfaces
      # ios_config:
       #  lines: shutdown
@@ -26,26 +16,23 @@
       #with_dict: "{{  network_resources }}"
       #when: item.value.operstatus == "down"
 
-
-    - name: VIEW ALL ANSIBLE FACT KEYS
+    - name: display interfaces without description
       debug:
-        var: ansible_facts.keys()
+      # var: ansible_net_interfaces.keys()
+      # var: facts_output.ansible_facts.ansible_network_resources
+      # msg: "{{ facts_output.ansible_facts.ansible_net_interfaces[item]['description'] }}"
+        msg: "{{ facts_output.ansible_facts.ansible_net_interfaces[item].description }}"
+        # search facts, gets keys and check descripiton where descripiton is null
+      loop: "{{ facts_output.ansible_facts.ansible_net_interfaces.keys() }}"
+      when: 'facts_output.ansible_facts.ansible_net_interfaces[item].description ==None '  
+    
+    - name: shutdown unused ports
+      ios_config:
+        lines:
+          - shutdown
+          - description Shutdown_by_Ansible
+        parents: "interface {{ item }}"
+      loop: "{{ facts_output.ansible_facts.ansible_net_interfaces.keys() }}"
+      when: 'facts_output.ansible_facts.ansible_net_interfaces[item].description ==None '  
 
-    - name: VIEW ALL ANSIBLE FACT values
-      debug:
-        var: ansible_facts.values()
-
-    - name: show ios facts 2
-      debug:
-        # var: ansible_net_interfaces
-        # var: ansible_net_interfaces.keys()
-        msg: " {{ item.keys() }}"  
-        with_dict: "{{ interfaces_result.ansible_facts.ansible_net_interfaces }}"
-
-    - name: Display all interface data
-      debug:
-        msg: "{{ item.key }},{{item.value.description}},{{item.value.ipv4.0.address}},{{item.value.ipv4.0.subnet}}"
-      when: item.value.ipv4.0.address is defined
-      with_dict:
-        - "{{ ansible_net_resources}}"
 ...

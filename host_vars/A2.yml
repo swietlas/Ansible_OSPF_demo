@@ -1,0 +1,23 @@
+interfaces:
+ - name: GigabitEthernet0/0
+   description: Trunk to D2 configured by Ansible
+   mode: trunk
+   allowed_vlans: 10-20,40
+   native: 10
+   encap: dot1q
+
+vlans:
+  - id: 10
+    name: Ansible-Vlan DATA-VLAN
+  - id: 20
+    name: Ansible-Vlan HOST-VLAN
+  - id: 30
+    name: Ansible-Vlan 30
+  - id: 40 
+    name: Ansible-Vlan 40
+  - id: 40 
+    name: Ansible-Vlan 40
+  - id: 50
+    name: Ansible-Vlan MGMT
+  - id: 60
+    name: Ansible-Vlan DMZ  

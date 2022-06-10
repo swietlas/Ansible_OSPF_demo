@@ -7,12 +7,17 @@ interfaces:
    link_local: fe80::d1:2
    area: "1"
  - name: GigabitEthernet0/1
-   L3: true
    description: Link to PC1 configured by Ansible
-   ipv4: 10.10.11.2/24
-   ipv6: "2001:db8:acad:1002::1/64"
-   link_local: fe80::d1:1
-   area: "1"
+   mode: access
+   access_vlan: 10
+   voice_vlan: 50
+ - name: GigabitEthernet0/3
+   description: Trunk to A1 configured by Ansible
+   mode: trunk
+   allowed_vlans: 10-20,40
+   native: 10
+   encap: dot1q
+   
 ospf:
   process_id: 123
   router_id: 1.1.1.2
@@ -25,3 +30,19 @@ ospf_networks:
   - address: "10.10.11.0"
     wildcard_bits: "0.0.0.3"
     area: "1"
+
+vlans:
+  - id: 10
+    name: Ansible-Vlan DATA-VLAN
+  - id: 20
+    name: Ansible-Vlan HOST-VLAN
+  - id: 30
+    name: Ansible-Vlan 30
+  - id: 40 
+    name: Ansible-Vlan 40
+  - id: 40 
+    name: Ansible-Vlan 40
+  - id: 50
+    name: Ansible-Vlan MGMT
+  - id: 60
+    name: Ansible-Vlan DMZ  

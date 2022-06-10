@@ -42,6 +42,9 @@
               - address: "{{ item.ipv6 }}"
         state: merged
       loop: "{{ interfaces }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: "item.mode is not defined"
       tags: addresses
 
     - name: Configure IPv6 link-local addresses

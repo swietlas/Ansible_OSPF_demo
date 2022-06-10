@@ -1,0 +1,261 @@
+TASK [display ansible facts interfaces] ************************************************************************************************************************************
+ok: [R1] => {
+    "ansible_net_interfaces": {
+        "GigabitEthernet0/0": {
+            "bandwidth": 1000000,
+            "description": "Link to R2 configured by Ansible",
+            "duplex": "Auto",
+            "ipv4": [
+                {
+                    "address": "172.16.0.2",
+                    "subnet": "30"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "2001:DB8:ACAD:A001::2",
+                    "subnet": "2001:DB8:ACAD:A001::/64"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0001.0000",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/1": {
+            "bandwidth": 1000000,
+            "description": "Link to D1 configured by Ansible",
+            "duplex": "Auto",
+            "ipv4": [
+                {
+                    "address": "10.10.0.1",
+                    "subnet": "30"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "2001:DB8:ACAD:1001::1",
+                    "subnet": "2001:DB8:ACAD:1001::/64"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0001.0001",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/2": {
+            "bandwidth": 1000000,
+            "description": "MGMT",
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.10.7.161",
+                    "subnet": "24"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0001.0002",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/3": {
+            "bandwidth": 1000000,
+            "description": null,
+            "duplex": "Auto",
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "5000.0001.0003",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "iGbE"
+        }
+    }
+}
+ok: [R2] => {
+    "ansible_net_interfaces": {
+        "GigabitEthernet0/0": {
+            "bandwidth": 1000000,
+            "description": "Link to R1 configured by Ansible",
+            "duplex": "Auto",
+            "ipv4": [
+                {
+                    "address": "172.16.0.1",
+                    "subnet": "30"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "2001:DB8:ACAD:A001::1",
+                    "subnet": "2001:DB8:ACAD:A001::/64"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0002.0000",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/1": {
+            "bandwidth": 1000000,
+            "description": "Link to R3 configured by Ansible",
+            "duplex": "Auto",
+            "ipv4": [
+                {
+                    "address": "172.16.1.1",
+                    "subnet": "30"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "2001:DB8:ACAD:A002::1",
+                    "subnet": "2001:DB8:ACAD:A002::/64"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0002.0001",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/2": {
+            "bandwidth": 1000000,
+            "description": "MGMT",
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.10.7.116",
+                    "subnet": "24"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0002.0002",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/3": {
+            "bandwidth": 1000000,
+            "description": null,
+            "duplex": "Auto",
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "5000.0002.0003",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "iGbE"
+        },
+        "Loopback0": {
+            "bandwidth": 8000000,
+            "description": "Loopback 0 configured by Ansible",
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "209.165.200.225",
+                    "subnet": "27"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "2001:DB8:FEED:209::1",
+                    "subnet": "2001:DB8:FEED:209::/64"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": null,
+            "mediatype": null,
+            "mtu": 1514,
+            "operstatus": "up",
+            "type": null
+        }
+    }
+}
+ok: [R3] => {
+    "ansible_net_interfaces": {
+        "GigabitEthernet0/0": {
+            "bandwidth": 1000000,
+            "description": "Link to R2 configured by Ansible",
+            "duplex": "Auto",
+            "ipv4": [
+                {
+                    "address": "172.16.1.2",
+                    "subnet": "30"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "2001:DB8:ACAD:A002::2",
+                    "subnet": "2001:DB8:ACAD:A002::/64"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0003.0000",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/1": {
+            "bandwidth": 1000000,
+            "description": "Link to D2 configured by Ansible",
+            "duplex": "Auto",
+            "ipv4": [
+                {
+                    "address": "10.10.4.1",
+                    "subnet": "30"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "2001:DB8:ACAD:2001::1",
+                    "subnet": "2001:DB8:ACAD:2001::/64"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0003.0001",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/2": {
+            "bandwidth": 1000000,
+            "description": null,
+            "duplex": null,
+            "ipv4": [
+                {
+                    "address": "10.10.7.221",
+                    "subnet": "24"
+                }
+            ],
+            "lineprotocol": "up",
+            "macaddress": "5000.0003.0002",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "up",
+            "type": "iGbE"
+        },
+        "GigabitEthernet0/3": {
+            "bandwidth": 1000000,
+            "description": null,
+            "duplex": "Auto",
+            "ipv4": [],
+            "lineprotocol": "down",
+            "macaddress": "5000.0003.0003",
+            "mediatype": "RJ45",
+            "mtu": 1500,
+            "operstatus": "administratively down",
+            "type": "iGbE"
+        }
+    }
+}
