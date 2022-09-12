@@ -1,2 +1,4 @@
-env2/
-venv/
+env2/*
+!env2
+env/*
+!env

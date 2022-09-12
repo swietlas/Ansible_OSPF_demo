@@ -1,0 +1,58 @@
+changed: false
+failed: false
+gathered:
+-   mtu: 1500
+    name: default
+    shutdown: disabled
+    state: active
+    vlan_id: 1
+-   mtu: 1500
+    name: Ansible-Vlan DATA-VLAN
+    shutdown: disabled
+    state: active
+    vlan_id: 10
+-   mtu: 1500
+    name: Ansible-Vlan HOST-VLAN
+    shutdown: disabled
+    state: active
+    vlan_id: 20
+-   mtu: 1500
+    name: Ansible-Vlan 30
+    shutdown: disabled
+    state: active
+    vlan_id: 30
+-   mtu: 1500
+    name: Ansible-Vlan 40
+    shutdown: disabled
+    state: active
+    vlan_id: 40
+-   mtu: 1500
+    name: Ansible-Vlan MGMT
+    shutdown: disabled
+    state: active
+    vlan_id: 50
+-   mtu: 1500
+    name: Ansible-Vlan DMZ
+    shutdown: disabled
+    state: active
+    vlan_id: 60
+-   mtu: 1500
+    name: fddi-default
+    shutdown: enabled
+    state: active
+    vlan_id: 1002
+-   mtu: 1500
+    name: token-ring-default
+    shutdown: enabled
+    state: active
+    vlan_id: 1003
+-   mtu: 1500
+    name: fddinet-default
+    shutdown: enabled
+    state: active
+    vlan_id: 1004
+-   mtu: 1500
+    name: trnet-default
+    shutdown: enabled
+    state: active
+    vlan_id: 1005

@@ -11,6 +11,19 @@
         parents: line vty 0 4
       tags: console
 
+    - name: run 'show vlans' prior executing commands
+      ios_command:
+        commands: show vlan brief
+      register: myvlans
+      tags: shvlans
+
+
+    - name: display value of "myvlans" variable
+      ansible.builtin.debug:
+        var: myvlans["stdout_lines"][0]
+      tags: shvlans
+
+
     - name: Configure switch VLANs
       cisco.ios.ios_vlans:
         config:
@@ -19,6 +32,7 @@
             state: active
             shutdown: disabled
       loop: "{{ vlans }}"
+      tags: vlans
 
     - name: Turn on interfaces
       ios_interfaces:
@@ -45,7 +59,7 @@
       when: "item.mode is defined and item.mode == 'trunk'"
       loop_control:
         label: "{{ item.name }}"
-      tags: intftrunk
+      tags: trunks
 
     - name: Configuring  access ports
       cisco.ios.ios_l2_interfaces:
@@ -61,27 +75,31 @@
       loop_control:
         label: "{{ item.name }}"
       when: "item.mode is defined and item.mode == 'access'"
-      tags: intfaccess
+      tags: access
 
 
 
-    - name: run 'show vlans' command
+    - name: run 'show vlans' after changes
       ios_command:
         commands: show vlan brief
       register: myvlans
+      tags: shvlans
 
     - name: display value of "myvlans" variable
       ansible.builtin.debug:
         var: myvlans["stdout_lines"][0]
+      tags: shvlans
 
     - name: run 'show int trunk' trunk
       ios_command:
         commands: show interfaces trunk
       register: mytrunks
+      tags: shtrunks
 
-    - name: display value of "myvlans" variable
+    - name: display value of "mytrunks" variable
       ansible.builtin.debug:
         var: mytrunks["stdout_lines"][0]
+      tags: shtrunks
 
 
 ...

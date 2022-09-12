@@ -4,7 +4,7 @@
   gather_facts: false
 
   tasks:
-    - name: Configure ospf 1
+    - name: Configure ospf 
       ios_ospfv2:
         config:
           processes:
@@ -22,7 +22,7 @@
 
     - name: Create ospf_config directory if does not exist
       file:
-        path: "{{ inventory_dir }}/ospf_config "
+        path: "{{ inventory_dir }}/ospf_config"
         state: directory
         recurse: true
 

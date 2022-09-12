@@ -10,13 +10,13 @@
           processes:
             - process_id: "{{ ospf.process_id }}"
               router_id: "{{ ospf.router_id }}"
-              # auto_cost:
-              # reference_bandwidth: "{{ ospf.auto_cost.reference_bandwidth }}"
+              auto_cost:
+                reference_bandwidth: "{{ ospf.auto_cost.reference_bandwidth }}"
               network:
                 - address: "{{ item.address }}"
                   area: "{{ item.area }}"
                   wildcard_bits: "{{ item.wildcard_bits }}"
-      when: ospf is defined
+      when: item.area is defined
       loop: "{{ ospf_networks }}"
       tags: ospfv2conf
 
@@ -31,6 +31,7 @@
         config:
         state: gathered
       register: ospfv2state
+      tags: showospf2
 
     - name: Write OSPFv2 config to a file
       ansible.builtin.copy:
@@ -39,6 +40,7 @@
         mode: 0755
         group: swt
         owner: swt
+      tags: writeospfv2
 
     - name: Merge provided OSPFV3 configuration
       cisco.ios.ios_ospfv3:
@@ -54,7 +56,7 @@
                 - afi: ipv6
                   unicast: true
       when: ospf is defined
-      # loop: "{{ ospf_networks }}"
+      loop: "{{ interfaces }}"
       tags: ospfv3conf
 
     - name: OSPF Interfaces configuration for IPv6 routers
@@ -67,22 +69,22 @@
                   id: "{{ ospf.process_id }}"
                   area_id: "{{ item.area }}"
                 adjacency: true
-                bfd: true
+                # bfd: true
+        state: merged
       loop: "{{ interfaces }}"
       loop_control:
         label: "{{ item.name }}"
-      when: "'Loopback' not in item.name and item.area is defined"
+      when: ('D' not in inventory_hostname) and (item.area is defined)
       tags: ospfv3intf
 
-    - name:  OSPF int ipv6 for switches
+    - name: OSPF int ipv6 for switches
       cisco.ios.ios_config:
         lines:
-          - ipv6 ospf {{ ospf.process_id}} area {{ item.area }}
+          - ipv6 ospf {{ ospf.process_id }} area {{ item.area }}
         parents: interface {{ item.name }}
       loop: "{{ interfaces }}"
       loop_control:
         label: "{{ item.name }}"
-      #when: "'D' in inventory_hostname"
       when: "'D' in inventory_hostname and item.area is defined"
       tags: ospfv3swtintf
 ...

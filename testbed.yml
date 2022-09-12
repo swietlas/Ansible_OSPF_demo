@@ -1,0 +1,92 @@
+devices:
+  A1:
+    connections:
+      cli:
+        ip: A1
+        protocol: ssh
+    credentials:
+      default:
+        password: C1sc0123!
+        username: ansi
+      enable:
+        password: '%ASK{}'
+    os: ios
+    type: ios
+  A2:
+    connections:
+      cli:
+        ip: A2
+        protocol: ssh
+    credentials:
+      default:
+        password: C1sc0123!
+        username: ansi
+      enable:
+        password: '%ASK{}'
+    os: ios
+    type: ios
+  D1:
+    connections:
+      cli:
+        ip: D1
+        protocol: ssh
+    credentials:
+      default:
+        password: C1sc0123!
+        username: ansi
+      enable:
+        password: '%ASK{}'
+    os: ios
+    type: ios
+  D2:
+    connections:
+      cli:
+        ip: D2
+        protocol: ssh
+    credentials:
+      default:
+        password: C1sc0123!
+        username: ansi
+      enable:
+        password: '%ASK{}'
+    os: ios
+    type: ios
+  R1:
+    connections:
+      cli:
+        ip: R1
+        protocol: ssh
+    credentials:
+      default:
+        password: C1sc0123!
+        username: ansi
+      enable:
+        password: '%ASK{}'
+    os: ios
+    type: ios
+  R2:
+    connections:
+      cli:
+        ip: R2
+        protocol: ssh
+    credentials:
+      default:
+        password: C1sc0123!
+        username: ansi
+      enable:
+        password: '%ASK{}'
+    os: ios
+    type: ios
+  R3:
+    connections:
+      cli:
+        ip: R3
+        protocol: ssh
+    credentials:
+      default:
+        password: C1sc0123!
+        username: ansi
+      enable:
+        password: '%ASK{}'
+    os: ios
+    type: ios

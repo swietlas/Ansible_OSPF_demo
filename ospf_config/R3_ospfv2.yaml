@@ -1,6 +1,8 @@
  ospfv2state:
     processes:
-    -   network:
+    -   auto_cost:
+            reference_bandwidth: 1000
+        network:
         -   address: 10.10.4.0
             area: '2'
             wildcard_bits: 0.0.0.3
